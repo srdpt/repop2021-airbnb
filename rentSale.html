@@ -122,8 +122,8 @@
             </div>
         </div>
         <div class="session">
-            <h2>Year-Month: <label id="active-hour">2016-01</label></h2>
-            <input id="slider" class="row" type="range" min="2" max="101" step="1" value="1" />
+            <h2>Year-Month: <label id="active-hour">Year-Month</label></h2>
+            <input id="slider" class="row" type="range" min="7" max="106" step="1" value="1" />
             <input type="button" value="Play" id=btnPlay>
             <input type="button" value="Pause" id=btnPause>
         </div>
@@ -145,10 +145,14 @@
             zoom: 13
         });
 
+        let slider = document.getElementById('slider')
+
+
         let mode = "rent"
 
         map.on('load', () => {
-            let filterHour = ['==', ['string', ['get', 'Date']], "2016-01"];
+            let filterHour = ['==', ['string', ['get', 'Date']], getTimeCode(slider.value)];
+            document.getElementById('active-hour').innerText = getTimeCode(slider.value)
 
             console.log("Loaded")
 
@@ -190,7 +194,6 @@
                 return monthIndex < 10 ? "20" + year + "-0" + monthIndex : "20" + year + "-" + monthIndex
             }
 
-            let slider = document.getElementById('slider')
 
             // update hour filter when the slider is dragged
             slider.addEventListener('input', (event) => {
