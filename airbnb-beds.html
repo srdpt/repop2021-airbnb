@@ -70,6 +70,29 @@
             display: inline-block;
             text-align: center;
         }
+
+        #dateBox {
+            position: absolute;
+            right: 2rem;
+            top: 2rem;
+            min-width: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .txtDate {
+            font-size: 5rem;
+            padding: 1rem;
+        }
+        .btn {
+            background-color: #fff;
+            border: 3px solid black;
+            border-radius: 3px;
+            padding: .5rem;
+            transition: background-color .25s;
+
+        }
     </style>
 </head>
 
@@ -78,7 +101,7 @@
     <div id="console">
         <h1>AirBNB Beds in Venice</h1>
         <p>See the growth of AirBNBs in Venice since 2016</p>
-        
+
         <div class="session">
             <h2># of beds</h2>
             <div class="row colors"></div>
@@ -92,11 +115,15 @@
             </div>
         </div>
         <div class="session">
-            <h2>Year-Month: <label id="active-hour">2016-01</label></h2>
+            <h2>Year-Month: <label id="smallDate">2016-01</label></h2>
             <input id="slider" class="row" type="range" min="1" max="71" step="1" value="1" />
-            <input type="button" value="Play" id=btnPlay>
-            <input type="button" value="Pause" id=btnPause>
+            <input class="btn" type="button" value="Play" id=btnPlay>
+            <input class="btn" type="button" value="Pause" id=btnPause>
         </div>
+    </div>
+
+    <div id="dateBox">
+        <h1 id="largeDate" class="txtDate">mon year</h1>
     </div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoidmUyMS1yZXBvcCIsImEiOiJja3V5aWJmMHYwcWllMnBxd3VxaHFybnQ4In0.wlK8ydjP221cgz4vRSXmkw';
@@ -107,8 +134,31 @@
             zoom: 13
         });
 
+        const months = [null, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+        let TimeCode = class TimeCode {
+            constructor(month, year) {
+                this.month = month;
+                this.year = year;
+            }
+
+            getTimeCode() {
+                return this.month < 10 ? "20" + this.year + "-0" + this.month : "20" + this.year + "-" + this.month
+            }
+
+            getString() {
+                let monthStr = months[this.month];
+                let yearStr = "20" + this.year;
+
+                return monthStr + " " + yearStr;
+            }
+
+        }
+
         map.on('load', () => {
-            let filterHour = ['==', ['string', ['get', 'month_year']], "2016-01"];
+            let filterDate = ['==', ['string', ['get', 'month_year']], "2016-01"];
+            document.getElementById('smallDate').innerText = getTimeCode(slider.value).getString()
+            document.getElementById('largeDate').innerText = getTimeCode(slider.value).getString()
 
             console.log("Loaded")
 
@@ -139,47 +189,49 @@
                     ],
                     'fill-opacity': 0.75
                 },
-                'filter': ['all', filterHour]
+                'filter': ['all', filterDate]
             });
 
-            function getTimeCode(sliderVal){
+            function getTimeCode(sliderVal) {
                 const monthIndex = sliderVal % 12 ? (sliderVal % 12).toString() : "12";
-                const year = Math.floor(sliderVal/12.1) + 16;
-                
-                return monthIndex<10 ? "20"+year+"-0"+monthIndex : "20"+year+"-"+monthIndex
+                const year = Math.floor(sliderVal / 12.1) + 16;
+                const time = new TimeCode(monthIndex, year);
+
+                return time
             }
 
             // update hour filter when the slider is dragged
             document.getElementById('slider').addEventListener('input', (event) => {
-                const yearMonth = getTimeCode(event.target.value);
+                let timeCode = getTimeCode(event.target.value);
                 // update the map
-                filterHour = ['==', ['string', ['get', 'month_year']], yearMonth];
-                map.setFilter('beds', ['all', filterHour]);
+                filterDate = ['==', ['string', ['get', 'month_year']], timeCode.getTimeCode()];
+                map.setFilter('beds', ['all', filterDate]);
 
                 // const months = ['Jan', "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 
                 // update text in the UI
-                document.getElementById('active-hour').innerText = yearMonth
+                document.getElementById('smallDate').innerText = timeCode.getString()
+                document.getElementById('largeDate').innerText = timeCode.getString()
             });
 
-            
+
         });
 
         let interval = null
 
-            document.getElementById("btnPlay").addEventListener("click", () => {
-                interval = setInterval(() => {
-                    document.getElementById("slider").value = parseInt(document.getElementById("slider").value) + 1;
-                    document.getElementById("slider").dispatchEvent(new Event("input"))
-                }, 1000)
-            })
+        document.getElementById("btnPlay").addEventListener("click", () => {
+            interval = setInterval(() => {
+                document.getElementById("slider").value = parseInt(document.getElementById("slider").value) + 1;
+                document.getElementById("slider").dispatchEvent(new Event("input"))
+            }, 1000)
+        })
 
-            document.getElementById("btnPause").addEventListener("click", ()=>{
-                clearInterval(interval)
-            })
+        document.getElementById("btnPause").addEventListener("click", () => {
+            clearInterval(interval)
+        })
 
-        
+
     </script>
 </body>
 
