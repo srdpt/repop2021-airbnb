@@ -82,15 +82,41 @@
             border: 3px solid black;
             border-radius: 3px;
             padding: .5rem;
+            transition: background-color .25s;
+
         }
 
-        .btn:hover {
+        .btn-animated{
+            transition: scale .25s;
+            transition-timing-function: ease-out
+        }
+
+        .btn-active {
             background-color: #000;
             border: 3px solid white;
             color: white;
         }
-        .hidden{
+
+        .btn-animated:hover {
+            scale: 125%;
+        }
+
+        .hidden {
             display: none;
+        }
+
+        #dateBox{
+            position: absolute;
+            right: 2rem;
+            top: 2rem;
+            min-width: 400px;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .txtDate{
+            font-size: 5rem;
+            padding: 1rem;
         }
     </style>
 </head>
@@ -122,19 +148,23 @@
             </div>
         </div>
         <div class="session">
-            <h2>Year-Month: <label id="active-hour">Year-Month</label></h2>
+            <h2>Year-Month: <label id="smallDate">Year-Month</label></h2>
             <input id="slider" class="row" type="range" min="7" max="106" step="1" value="1" />
-            <input type="button" value="Play" id=btnPlay>
-            <input type="button" value="Pause" id=btnPause>
+            <input class="btn" type="button" value="Play" id=btnPlay>
+            <input class="btn" type="button" value="Pause" id=btnPause>
         </div>
         <div class="buttons">
-            <button id="btnRent" class="btn">
+            <button id="btnRent" class="btn btn-animated btn-active">
                 Rent Prices
             </button>
-            <button id="btnSale" class="btn">
+            <button id="btnSale" class="btn btn-animated">
                 Sale Prices
             </button>
         </div>
+    </div>
+
+    <div id="dateBox">
+        <h1 id="largeDate" class="txtDate">mon year</h1>
     </div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoidmUyMS1yZXBvcCIsImEiOiJja3V5aWJmMHYwcWllMnBxd3VxaHFybnQ4In0.wlK8ydjP221cgz4vRSXmkw';
@@ -145,14 +175,39 @@
             zoom: 13
         });
 
+        let TimeCode = class TimeCode {
+                constructor(month, year){
+                    this.month = month;
+                    this.year = year;
+                }
+
+                getTimeCode(){
+                    return this.month < 10 ? "20" + this.year + "-0" + this.month : "20" + this.year + "-" + this.month
+                }
+
+                getString(){
+                    let monthStr = months[this.month];
+                    let yearStr  = "20" + this.year;
+
+                    return monthStr+ " " + yearStr;
+                }
+                
+            }
+
         let slider = document.getElementById('slider')
 
+        let btnRent = document.getElementById("btnRent");
+        let btnSale = document.getElementById("btnSale");
+        let lblMeasure = document.getElementById("lblMeasure")
+
+        const months = [null, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
         let mode = "rent"
 
         map.on('load', () => {
-            let filterHour = ['==', ['string', ['get', 'Date']], getTimeCode(slider.value)];
-            document.getElementById('active-hour').innerText = getTimeCode(slider.value)
+            let filterHour = ['==', ['string', ['get', 'Date']], getTimeCode(slider.value).getTimeCode()];
+            document.getElementById('smallDate').innerText = getTimeCode(slider.value).getString()
+            document.getElementById('largeDate').innerText = getTimeCode(slider.value).getString()
 
             console.log("Loaded")
 
@@ -187,11 +242,14 @@
                 'filter': ['all', filterHour]
             });
 
+            
+
             function getTimeCode(sliderVal) {
                 const monthIndex = sliderVal % 12 ? (sliderVal % 12).toString() : "12";
                 const year = Math.floor(sliderVal / 12.1) + 13;
+                const time = new TimeCode(monthIndex, year);
 
-                return monthIndex < 10 ? "20" + year + "-0" + monthIndex : "20" + year + "-" + monthIndex
+                return time
             }
 
 
@@ -199,20 +257,19 @@
             slider.addEventListener('input', (event) => {
                 const yearMonth = getTimeCode(event.target.value);
                 // update the map
-                filterHour = ['==', ['string', ['get', 'Date']], yearMonth];
+                filterHour = ['==', ['string', ['get', 'Date']], yearMonth.getTimeCode()];
                 map.setFilter('prices', ['all', filterHour]);
 
                 // update text in the UI
-                document.getElementById('active-hour').innerText = yearMonth
+                document.getElementById('smallDate').innerText = yearMonth.getString()
+                document.getElementById('largeDate').innerText = yearMonth.getString()
             });
-
-            let btnRent = document.getElementById("btnRent");
-            let btnSale = document.getElementById("btnSale");
-            let lblMeasure = document.getElementById("lblMeasure")
 
             btnRent.addEventListener("click", () => {
                 lblMeasure.innerHTML = "Rent Price"
                 mode = "rent";
+
+                toggleActive(btnRent)
 
                 document.getElementById("lblsSale").classList.add("hidden")
                 document.getElementById("lblsRent").classList.remove("hidden")
@@ -239,6 +296,8 @@
             btnSale.addEventListener("click", () => {
                 lblMeasure.innerHTML = "Sale Price"
                 mode = "sale"
+
+                toggleActive(btnSale);
 
                 document.getElementById("lblsSale").classList.remove("hidden")
                 document.getElementById("lblsRent").classList.add("hidden")
@@ -315,6 +374,16 @@
 
             }
 
+        }
+
+        function toggleActive(btn) {
+            if (btn == btnRent) {
+                btnRent.classList.add("btn-active")
+                btnSale.classList.remove("btn-active")
+            } else {
+                btnRent.classList.remove("btn-active")
+                btnSale.classList.add("btn-active")
+            }
         }
 
     </script>
