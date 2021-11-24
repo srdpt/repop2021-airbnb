@@ -86,7 +86,7 @@
 
         }
 
-        .btn-animated{
+        .btn-animated {
             transition: scale .25s;
             transition-timing-function: ease-out
         }
@@ -105,16 +105,17 @@
             display: none;
         }
 
-        #dateBox{
+        #dateBox {
             position: absolute;
             right: 2rem;
             top: 2rem;
             min-width: 400px;
-            display:flex;
+            display: flex;
             align-items: center;
             justify-content: center;
         }
-        .txtDate{
+
+        .txtDate {
             font-size: 5rem;
             padding: 1rem;
         }
@@ -176,23 +177,23 @@
         });
 
         let TimeCode = class TimeCode {
-                constructor(month, year){
-                    this.month = month;
-                    this.year = year;
-                }
-
-                getTimeCode(){
-                    return this.month < 10 ? "20" + this.year + "-0" + this.month : "20" + this.year + "-" + this.month
-                }
-
-                getString(){
-                    let monthStr = months[this.month];
-                    let yearStr  = "20" + this.year;
-
-                    return monthStr+ " " + yearStr;
-                }
-                
+            constructor(month, year) {
+                this.month = month;
+                this.year = year;
             }
+
+            getTimeCode() {
+                return this.month < 10 ? "20" + this.year + "-0" + this.month : "20" + this.year + "-" + this.month
+            }
+
+            getString() {
+                let monthStr = months[this.month];
+                let yearStr = "20" + this.year;
+
+                return monthStr + " " + yearStr;
+            }
+
+        }
 
         let slider = document.getElementById('slider')
 
@@ -242,7 +243,26 @@
                 'filter': ['all', filterHour]
             });
 
-            
+            map.addLayer({
+                id: 'labels',
+                type: 'symbol',
+                source: {
+                    type: 'geojson',
+                    data: 'rentSale.geojson'
+                },
+                layout: {
+                    'text-field': ['get', 'Rent Price'],
+                    'text-font': [
+                        'Open Sans Semibold',
+                        'Arial Unicode MS Bold'
+                    ],
+                    'text-offset': [0, 1.25],
+                    'text-anchor': 'center'
+                },
+                'filter': ['all', filterHour]
+            })
+
+
 
             function getTimeCode(sliderVal) {
                 const monthIndex = sliderVal % 12 ? (sliderVal % 12).toString() : "12";
@@ -259,6 +279,8 @@
                 // update the map
                 filterHour = ['==', ['string', ['get', 'Date']], yearMonth.getTimeCode()];
                 map.setFilter('prices', ['all', filterHour]);
+                map.setFilter('labels', ['all', filterHour]);
+
 
                 // update text in the UI
                 document.getElementById('smallDate').innerText = yearMonth.getString()
@@ -273,6 +295,8 @@
 
                 document.getElementById("lblsSale").classList.add("hidden")
                 document.getElementById("lblsRent").classList.remove("hidden")
+
+                map.setLayoutProperty("labels", "text-field", ['get', 'Rent Price'])
 
                 map.setPaintProperty("prices", "fill-color", [
                     'interpolate',
@@ -302,6 +326,8 @@
                 document.getElementById("lblsSale").classList.remove("hidden")
                 document.getElementById("lblsRent").classList.add("hidden")
 
+                map.setLayoutProperty("labels", "text-field", ['get', 'Sale Price'])
+
                 map.setPaintProperty("prices", "fill-color", [
                     'interpolate',
                     ['linear'],
@@ -329,7 +355,7 @@
             closeOnClick: false
         })
 
-        map.on('mouseenter', 'prices', (event) => {
+        map.on('mousemove', 'prices', (event) => {
             map.getCanvas().style.cursor = 'pointer';
 
             const locationName = event.features[0].properties.location;
