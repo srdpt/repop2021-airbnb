@@ -1,0 +1,103 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+h1 {
+  font-size: 20px;
+  line-height: 30px;
+}
+
+h2 {
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #2dc4b2;
+}
+
+#console {
+  position: absolute;
+  margin: 10px;
+  width: 240px;
+  background-color: white;
+  padding: 10px 20px;
+}
+
+.session {
+  margin-bottom: 20px;
+}
+
+.row {
+  height: 12px;
+  width: 100%;
+}
+
+.colors {
+  background: linear-gradient(
+    to right,
+    #04782e,
+    #00b040,
+    #fff400,
+    #e1da04,
+    #ff8c00,
+    #ff2800
+  );
+  margin-bottom: 5px;
+}
+
+.labels {
+  display: flex;
+  justify-content: space-around;
+}
+
+.label {
+  width: 15%;
+  display: inline-block;
+  text-align: center;
+}
+
+#dateBox {
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+  min-width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.txtDate {
+  font-size: 5rem;
+  padding: 1rem;
+}
+
+.btn {
+  background-color: #fff;
+  border: 3px solid black;
+  border-radius: 3px;
+  padding: 0.5rem;
+  transition: background-color 0.25s;
+}
+
+#chartBox {
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:2rem;
+  background-color: white;
+}

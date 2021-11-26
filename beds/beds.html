@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>AirBNB Beds</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.js"></script>
+    <script src="https://d3js.org/d3.v6.js"></script>
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/main.css">
+    
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="console">
+        <h1>AirBNB Beds in Venice</h1>
+        <p>See the growth of AirBNBs in Venice since 2016</p>
+
+        <div class="session">
+            <h2># of beds</h2>
+            <div class="row colors"></div>
+            <div class="row labels">
+                <div class="label">0</div>
+                <div class="label">20</div>
+                <div class="label">40</div>
+                <div class="label">60</div>
+                <div class="label">80</div>
+                <div class="label">100</div>
+            </div>
+        </div>
+        <div class="session">
+            <h2>Year-Month: <label id="smallDate">2016-01</label></h2>
+            <input id="slider" class="row" type="range" min="1" max="71" step="1" value="1" />
+            <input class="btn" type="button" value="Play" id=btnPlay>
+            <input class="btn" type="button" value="Pause" id=btnPause>
+        </div>
+    </div>
+
+    <div id="dateBox">
+        <h1 id="largeDate" class="txtDate">mon year</h1>
+    </div>
+
+    <div id="chartBox">
+        <div id="chart"></div>
+    </div>
+    <script src="scripts/map.js"></script>
+    <script src="scripts/chart.js"></script>
+</body>
+
+</html>
