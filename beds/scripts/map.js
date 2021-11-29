@@ -113,7 +113,7 @@ map.on("load", () => {
 	function getTimeCode(sliderVal) {
 		const monthIndex = sliderVal % 12 ? (sliderVal % 12).toString() : "12";
 		const year = Math.floor(sliderVal / 12.1) + 16;
-		const time = new TimeCode(new Date(`20${year}-${monthIndex}`));
+		const time = monthIndex < 10 ? new TimeCode(new Date(`20${year}-0${monthIndex}`)) : new TimeCode(new Date(`20${year}-${monthIndex}`))
 
 		return time;
 	}
