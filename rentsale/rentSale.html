@@ -54,15 +54,51 @@
             width: 100%;
         }
 
+        .scale {
+            height: 100%;
+            display: grid;
+            grid-template-columns: 10% 85%;
+            gap: 5%;
+            justify-content: space-between;
+        }
+
+        .labels {
+            height: 100%;
+            display: grid;
+            grid-template-rows: repeat(5, 15%);
+            align-content: space-between;
+        }
+
         .colors {
-            background: linear-gradient(to right,
-                    #04782E,
-                    #00B040,
-                    #FFF400,
-                    #E1DA04,
-                    #FF8C00,
-                    #FF2800);
-            margin-bottom: 5px;
+            height: 100%;
+            display: grid;
+            grid-template-rows: repeat(5, 15%);
+            align-content: space-between;
+        }
+
+        .color {
+            width: 100%;
+            height: 12px;
+        }
+
+        .red {
+            background-color: #d7191c;
+        }
+
+        .orange {
+            background-color: #fdae61;
+        }
+
+        .tan {
+            background-color: #ffffbf;
+        }
+
+        .lightGreen {
+            background-color: #a6d96a;
+        }
+
+        .darkGreen {
+            background-color: #1a9641;
         }
 
         .label {
@@ -130,23 +166,30 @@
 
         <div class="session">
             <h2 id="lblMeasure">Rent Price</h2>
-            <div class="row colors"></div>
-            <div id="lblsRent" class="row labels">
-                <div class="label">1200</div>
-                <div class="label">1400</div>
-                <div class="label">1600</div>
-                <div class="label">1800</div>
-                <div class="label">2000</div>
-                <div class="label">2200</div>
+            <div class="scale">
+                <div class="colors">
+                    <div class="darkGreen color"></div>
+                    <div class="lightGreen color"></div>
+                    <div class="tan color"></div>
+                    <div class="orange color"></div>
+                    <div class="red color"></div>
+                </div>
+                <div id="lblsRent" class="row labels">
+                    <div class="label">0-729</div>
+                    <div class="label">730-909</div>
+                    <div class="label">910-1409</div>
+                    <div class="label">1410-1509</div>
+                    <div class="label">1510-1610</div>
+                </div>
+                <div id="lblsSale" class="row hidden labels">
+                    <div class="label">0-1674</div>
+                    <div class="label">1675-1877</div>
+                    <div class="label">1878-4235</div>
+                    <div class="label">4236-4772</div>
+                    <div class="label">4773-5084</div>
+                </div>
             </div>
-            <div id="lblsSale" class="row hidden labels">
-                <div class="label">3000</div>
-                <div class="label">3500</div>
-                <div class="label">4000</div>
-                <div class="label">4500</div>
-                <div class="label">5000</div>
-                <div class="label">5500</div>
-            </div>
+
         </div>
         <div class="session">
             <h2>Year-Month: <label id="smallDate">Year-Month</label></h2>
@@ -221,21 +264,14 @@
                 },
                 paint: {
                     'fill-color': [
-                        'interpolate',
-                        ['linear'],
+                        'step',
                         ['number', ['get', 'Rent Price']],
-                        1200,
-                        '#04782E',
-                        1400,
-                        '#00B040',
-                        1600,
-                        '#FFF400',
-                        1800,
-                        '#E1DA04',
-                        2000,
-                        '#FF8C00',
-                        2200,
-                        '#FF2800'
+                        '#000',
+                        730, '#1a9641',
+                        910, '#a6d96a',
+                        1410, '#ffffbf',
+                        1510, '#fdae61',
+                        1610, '#d7191c',
                     ],
                     'fill-opacity': 0.75,
                     'fill-outline-color': "#000"
@@ -300,21 +336,14 @@
                 map.setLayoutProperty("labels", "text-field", ['get', 'Rent Price'])
 
                 map.setPaintProperty("prices", "fill-color", [
-                    'interpolate',
-                    ['linear'],
+                    'step',
                     ['number', ['get', 'Rent Price']],
-                    1200,
-                    '#04782E',
-                    1400,
-                    '#00B040',
-                    1600,
-                    '#FFF400',
-                    1800,
-                    '#E1DA04',
-                    2000,
-                    '#FF8C00',
-                    2200,
-                    '#FF2800'
+                    '#000',
+                    730, '#1a9641',
+                    910, '#a6d96a',
+                    1410, '#ffffbf',
+                    1510, '#fdae61',
+                    1610, '#d7191c',
                 ])
             })
 
@@ -330,21 +359,14 @@
                 map.setLayoutProperty("labels", "text-field", ['get', 'Sale Price'])
 
                 map.setPaintProperty("prices", "fill-color", [
-                    'interpolate',
-                    ['linear'],
+                    'step',
                     ['number', ['get', 'Sale Price']],
-                    3000,
-                    '#04782E',
-                    3500,
-                    '#00B040',
-                    4000,
-                    '#FFF400',
-                    4500,
-                    '#E1DA04',
-                    5000,
-                    '#FF8C00',
-                    5500,
-                    '#FF2800'
+                    '#000',
+                    1675, '#1a9641',
+                    1878, '#a6d96a',
+                    4236, '#ffffbf',
+                    4773, '#fdae61',
+                    5084, '#d7191c',
                 ])
             })
 
