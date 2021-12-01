@@ -16,6 +16,10 @@ const btnCalculate = document.getElementById("btnCalculate");
 
 const txtCalculated = document.getElementById("txtCalculated");
 
+const btnTransit = document.getElementById("btnTransit");
+const btnDrive = document.getElementById("btnDrive");
+
+
 //default selectedTime
 let selectedTime = btnFive;
 let selectedService = btnIsochrone;
@@ -26,6 +30,8 @@ let numMarkers = 0;
 
 let startDestination = 0;
 let endDestination = 0;
+
+let isTransit = true;
 
 function setBtnClicked(clickedBtn, oldBtn, isTime) {
     clickedBtn.classList.add("btnSelected");
@@ -55,8 +61,7 @@ function initMap() {
     console.log("google maps");
 }
 
-async function getTime() {
-    const phrase = "AIzaSyBBEqz4frTGx9nnJVG5Fg7yaDO0447QXbQ";
+async function getTime(isTransit) {
 
     const origin = {
         lat: markers[0].getLngLat().lat,
@@ -70,7 +75,7 @@ async function getTime() {
     const request = {
         origins: [origin],
         destinations: [destination],
-        travelMode: google.maps.TravelMode.TRANSIT,
+        travelMode: isTransit ? google.maps.TravelMode.TRANSIT : google.maps.TravelMode.DRIVING,
         unitSystem: google.maps.UnitSystem.IMPERIAL,
         avoidHighways: false,
         avoidTolls: false,
@@ -96,7 +101,7 @@ async function getTime() {
 //Click Listeners
 
 btnCalculate.addEventListener("click", () => {
-    getTime();
+    getTime(isTransit);
 });
 
 btnIsochrone.addEventListener("click", () => {
@@ -143,6 +148,16 @@ btnFifteen.addEventListener("click", () => {
     setBtnClicked(btnFifteen, selectedTime, true);
     minutes = 15;
 });
+
+btnTransit.addEventListener("click", ()=>{
+    setBtnClicked(btnTransit, btnDrive, false);
+    isTransit = true;
+})
+
+btnDrive.addEventListener("click", ()=>{
+    setBtnClicked(btnDrive,btnTransit, false);
+    isTransit = false;
+})
 
 function setDestination(isStart, lngLat) {
     if (isStart) {
@@ -319,7 +334,7 @@ map.on("load", () => {
 
     // Create a function that sets up the Isochrone API query then makes a fetch call
     async function getIso(lon, lat, minutes) {
-        let url = `${urlBase}/isochrone/v1/mapbox/walking/${lon},${lat}?contours_minutes=${minutes}&polygons=true&denoise=1&generalize=0&access_token=${mapboxgl.accessToken}`;
+        let url = `${urlBase}/isochrone/v1/mapbox/driving/${lon},${lat}?contours_minutes=${minutes}&polygons=true&denoise=1&generalize=0&access_token=${mapboxgl.accessToken}`;
         // let url = `https://api.geoapify.com/v1/isoline?lat=${lat}&lon=${lon}&type=time&mode=approximated_transit&range=${minutes*60}&apiKey=70ee900e49ad44c094ee98182bd4e277`
 
         const query = await fetch(url, { method: "GET" });

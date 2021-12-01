@@ -74,6 +74,22 @@
     </div>
 
     <div id="viewTravel" class="flex flex-col space-y-2 my-2 hidden">
+
+      <p class="my-1 underline text-white font-extrabold">Type of Transportation</p>
+      <div class="flex items-center justify-between space-x-2 font-semibold ">
+        <div id="btnTransit" class="
+                rounded-full
+                px-2
+                py-1
+                text-white
+                hover:bg-gray-600
+                btnSelected
+              ">
+          Public Transit
+        </div>
+        <div id="btnDrive" class="rounded-full px-2 py-1 text-white hover:bg-gray-600">Driving</div>
+      </div>
+
       <input disabled id="inputStart" type="text" placeholder="Starting Destination"
         class="rounded py-2 px-2 bg-gray-600 text-gray-400 font-semibold">
       <input disabled id="inputEnd" type="text" placeholder="Final Destination"
@@ -87,11 +103,14 @@
         </div>
       </div>
       <p id="txtCalculated" class="text-xl font-bold text-white"></p>
+
     </div>
   </div>
 
   <script src="scripts/isochrone.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBEqz4frTGx9nnJVG5Fg7yaDO0447QXbQ&callback=initMap&v=weekly" async></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBEqz4frTGx9nnJVG5Fg7yaDO0447QXbQ&callback=initMap&v=weekly"
+    async></script>
 
 </body>
 
