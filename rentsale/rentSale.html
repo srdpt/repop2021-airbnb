@@ -165,7 +165,7 @@
         <p>See how rent and sale prices have changed in the different neighborhoods of Venice</p>
 
         <div class="session">
-            <h2 id="lblMeasure">Rent Price</h2>
+            <h2 id="lblMeasure">Rent Price (Euro):</h2>
             <div class="scale">
                 <div class="colors">
                     <div class="darkGreen color"></div>
@@ -176,24 +176,24 @@
                 </div>
                 <div id="lblsRent" class="row labels">
                     <div class="label">0-909</div>
-                    <div class="label">910-1409</div>
-                    <div class="label">1410-1509</div>
-                    <div class="label">1510-1610</div>
-                    <div class="label">1610-2070</div>
+                    <div class="label">910-1,409</div>
+                    <div class="label">1,410-1,509</div>
+                    <div class="label">1,510-1,610</div>
+                    <div class="label">1,610-2,070</div>
                 </div>
                 <div id="lblsSale" class="row hidden labels">
-                    <div class="label">0-1674</div>
-                    <div class="label">1675-1877</div>
-                    <div class="label">1878-4235</div>
-                    <div class="label">4236-4772</div>
-                    <div class="label">4773-5084</div>
+                    <div class="label">0-167,499</div>
+                    <div class="label">167,500-187,799</div>
+                    <div class="label">187,800-423,599</div>
+                    <div class="label">423,600-477,299</div>
+                    <div class="label">477,300-508,499</div>
                 </div>
             </div>
 
         </div>
         <div class="session">
             <h2>Year-Month: <label id="smallDate">Year-Month</label></h2>
-            <input id="slider" class="row" type="range" min="7" max="106" step="1" value="1" />
+            <input id="slider" class="row" type="range" min="8" max="107" step="1" value="1" />
             <input class="btn" type="button" value="Play" id=btnPlay>
             <input class="btn" type="button" value="Pause" id=btnPause>
         </div>
@@ -325,7 +325,7 @@
             });
 
             btnRent.addEventListener("click", () => {
-                lblMeasure.innerHTML = "Rent Price"
+                lblMeasure.innerHTML = "Rent Price (Euro):"
                 mode = "rent";
 
                 toggleActive(btnRent)
@@ -348,7 +348,7 @@
             })
 
             btnSale.addEventListener("click", () => {
-                lblMeasure.innerHTML = "Sale Price"
+                lblMeasure.innerHTML = "Sale Price (Euro):"
                 mode = "sale"
 
                 toggleActive(btnSale);
@@ -362,11 +362,11 @@
                     'step',
                     ['number', ['get', 'Sale Price']],
                     '#000',
-                    1675, '#1a9641',
-                    1878, '#a6d96a',
-                    4236, '#ffffbf',
-                    4773, '#fdae61',
-                    5084, '#d7191c',
+                    167500, '#1a9641',
+                    187800, '#a6d96a',
+                    423600, '#ffffbf',
+                    477300, '#fdae61',
+                    508400, '#d7191c',
                 ])
             })
 
@@ -412,13 +412,13 @@
             if (mode == "rent") {
                 return `<h1>${event.features[0].properties.Name}</h1>
         <div id="locationDetails" style="display: flex; flex-direction: column;">
-            <p style="margin: 0"><strong>Rent Price per Month:</strong> ${event.features[0].properties["Rent Price"]}</p>
+            <p style="margin: 0"><strong>Rent Price per Month (Euro):</strong> ${event.features[0].properties["Rent Price"]}</p>
         </div>`
             }
             else {
                 return `<h1>${event.features[0].properties.Name}</h1>
         <div id="locationDetails" style="display: flex; flex-direction: column;">
-            <p style="margin: 0"><strong>Sale Price: </strong> ${event.features[0].properties["Sale Price"]}</p>
+            <p style="margin: 0"><strong>Sale Price (Euro): </strong> ${event.features[0].properties["Sale Price"]}</p>
         </div>`
 
             }
