@@ -334,7 +334,7 @@ map.on("load", () => {
 
     // Create a function that sets up the Isochrone API query then makes a fetch call
     async function getIso(lon, lat, minutes) {
-        let url = `${urlBase}/isochrone/v1/mapbox/driving/${lon},${lat}?contours_minutes=${minutes}&polygons=true&denoise=1&generalize=0&access_token=${mapboxgl.accessToken}`;
+        let url = `${urlBase}/isochrone/v1/mapbox/walking/${lon},${lat}?contours_minutes=${minutes}&polygons=true&denoise=1&generalize=0&access_token=${mapboxgl.accessToken}`;
         // let url = `https://api.geoapify.com/v1/isoline?lat=${lat}&lon=${lon}&type=time&mode=approximated_transit&range=${minutes*60}&apiKey=70ee900e49ad44c094ee98182bd4e277`
 
         const query = await fetch(url, { method: "GET" });
