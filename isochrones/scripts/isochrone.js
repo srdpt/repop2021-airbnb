@@ -38,10 +38,8 @@ function setBtnClicked(clickedBtn, oldBtn, isTime) {
 
     if (oldBtn != null) oldBtn.classList.remove("btnSelected");
 
-    if (isTime) {
-        selectedTime = clickedBtn;
-    } else {
-        selectedService = clickedBtn;
+    if(isTime){
+        selectedTime = clickedBtn
     }
 }
 
@@ -105,7 +103,7 @@ btnCalculate.addEventListener("click", () => {
 });
 
 btnIsochrone.addEventListener("click", () => {
-    setBtnClicked(btnIsochrone, selectedService, false);
+    setBtnClicked(btnIsochrone, btnTravel, false);
     selectedService = btnIsochrone;
 
     //Switch to Isochrone View
@@ -121,7 +119,7 @@ btnIsochrone.addEventListener("click", () => {
 });
 
 btnTravel.addEventListener("click", () => {
-    setBtnClicked(btnTravel, selectedService, false);
+    setBtnClicked(btnTravel, btnIsochrone, false);
     selectedService = btnTravel;
 
     //Switch to travel View
