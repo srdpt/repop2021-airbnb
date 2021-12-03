@@ -4,19 +4,6 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Rialto Bridge"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          45.438063,
-          13.33590
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "name": "Academia Bridge"
       },
       "geometry": {
@@ -76,6 +63,19 @@
         "coordinates": [
           12.318597435951231,
           45.43837466749775
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rialto Bridge"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.335929870605469,
+          45.438062247709226
         ]
       }
     }
