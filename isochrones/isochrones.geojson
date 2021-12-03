@@ -1,0 +1,83 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rialto Bridge"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          45.438063,
+          13.33590
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Academia Bridge"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.328941,
+          45.431668
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "H3"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.323029,
+          45.425772
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "St. Mark's Square"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.338415378081947,
+          45.4341551654546
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Soccer Stadium"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.364012053821966,
+          45.42779161973161
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Piazzale Roma"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12.318597435951231,
+          45.43837466749775
+        ]
+      }
+    }
+  ]
+}
